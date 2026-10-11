@@ -39,20 +39,14 @@ pip install -r req.txt
 ```
 
 ## Настройка
-В [bot.py](bot/cfg.py) находятся токены Яндекс.Музыки и Дискорд Бота которые необходимы для запуска бота.
+Для запуска бота нужны токены Яндекс.Музыки и Дискорд Бота. Они читаются в [cfg.py](bot/cfg.py) из файла `.env` в корне проекта.
 
-Вы можете как 
-Заменить это:
-```python
-token = os.environ["discordBotToken"]
-YMToken = os.environ["YMTOKEN"]
+Скопируйте `.env.example` в `.env` и впишите свои токены:
 ```
-на это:
-```python
-token = "MyDiscordToken"
-YMToken = "MyYMToken"
+discordBotToken=MyDiscordToken
+YMTOKEN=MyYMToken
 ```
-Также вы можете использовать токены из переменных сред как это изначально задумывалось.
+Файл `.env` добавлен в `.gitignore` и не попадёт в репозиторий. Переменные окружения, заданные в системе, имеют приоритет над `.env`.
 
 О том как получить токен Яндекс.Музыки вы можете узнать [здесь](https://github.com/MarshalX/yandex-music-api/discussions/513).
 
