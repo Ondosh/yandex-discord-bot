@@ -34,7 +34,8 @@ class Track:
             self.artists = track.artists
             self.title = track.title
             self.preview = "https://" + track.cover_uri.replace("%%", "1000x1000")
-            self.track_link = f"https://music.yandex.ru/album/{self.album_id}/track/{self.track_id}"
+            album_id = track.albums[0].id if track.albums else self.album_id
+            self.track_link = f"https://music.yandex.ru/album/{album_id}/track/{track.id}"
 
         self.available = track.available
 

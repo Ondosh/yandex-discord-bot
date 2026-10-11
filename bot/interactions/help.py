@@ -4,7 +4,7 @@ from discord import Interaction, Colour, Embed
 
 @Bot.tree.command(description="Помощь")
 async def help(interaction: Interaction):
-    commands = await Bot.tree.fetch_commands()
+    commands = {command.name: command for command in await Bot.tree.fetch_commands()}
     embed = Embed(
         title="Помощь",
         description="Здесь описаны все существующие команды бота:",
@@ -12,7 +12,8 @@ async def help(interaction: Interaction):
     )
     embed.add_field(
         name="Музыка",
-        value=  f"{commands[0].mention} - проигрывание Трека/Альбома/Плейлиста/Подкаста/Книги из Яндекс.Музыки.\n\n"
+        value=  f"{commands['play'].mention} - проигрывание Трека/Альбома/Плейлиста/Подкаста/Книги из Яндекс.Музыки.\n"
+                f"{commands['wave'].mention} - «Моя волна»: бесконечный автоподбор треков.\n\n"
                 "Данный бот проигрывает Треки/Альбомы/Плейлисты/Подкасты/Книги из Яндекс.Музыки" \
                 f"Чтобы воспроизвести что либо вы можете отправить ссылку/название трека или отрывок из него этой командой!",
         inline=False

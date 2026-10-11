@@ -1,4 +1,5 @@
 from .YM.Track import Track
+from .YM.Wave import Wave
 from discord import Message, VoiceChannel, VoiceClient, TextChannel
 
 
@@ -27,8 +28,13 @@ class VoiceManager:
     async def first_track(self):
         if isinstance(self.queue[0], Track):
             return self.queue[0]
-        else:
-            return self.queue[0].tracks[0]
+        if isinstance(self.queue[0], Wave) and not self.queue[0].tracks:
+            if len(self.queue) > 1:
+                # Волна уступает место добавленным трекам и продолжится после них
+                self.queue.append(self.queue.pop(0))
+                return await self.first_track()
+            await self.queue[0].next_track()
+        return self.queue[0].tracks[0]
 
 
     async def skip(self, playlist=False):

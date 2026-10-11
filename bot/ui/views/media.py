@@ -2,6 +2,7 @@ from discord import ui, ButtonStyle, Interaction, Embed, Colour
 from ...music import GM
 from ...music.voice import VoiceManager
 from ...music.YM.Track import Track
+from ...music.YM.Wave import Wave
 
 
 def check_voice(func):
@@ -102,7 +103,7 @@ class MediaPlayer(ui.View):
             name="Подсказки по кнопкам",
             value = "`▶️\⏸` - Паузка или продолжение проигрывания.\n" \
                     "`⏩` - Пропустить один Трек\Подкаст\Книгу в очереди.\n" \
-                    "`⏭` - Пропустить целый плейлист в очереди.\n" \
+                    "`⏭` - Пропустить целый плейлист в очереди или выключить «Мою волну».\n" \
                     "`⏹` - Полностью остановить проигрывание и очистить очередь!\n" \
                     "`📃` - Очередь треков."
         )
@@ -143,9 +144,14 @@ class MediaPlayer(ui.View):
                     else:
                         mediaItemQueue.append(f"{index+1}. _{item.title}_")
 
+                if isinstance(mediaItem, Wave):
+                    mediaItemQueue.append("\nСледующие треки подбираются автоматически")
+                elif len(mediaItem.tracks) > 8:
+                    mediaItemQueue.append(f"\n И ещё {len(mediaItem.tracks) - 8} треков!")
+
                 embed.add_field(
                     name = mediaItem.title,
-                    value=('\n'.join(mediaItemQueue)) + f"\n\n И ещё {len(mediaItem.tracks) - 8} треков!"
+                    value='\n'.join(mediaItemQueue)
                 )
         
         await interaction.response.send_message(embed=embed, ephemeral=True)
